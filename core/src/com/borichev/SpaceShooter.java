@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class SpaceShooter extends ApplicationAdapter {
     SpriteBatch batch;
     Texture img;
+    Texture background;
     TextureRegion region;
     int x;
 
@@ -17,6 +18,7 @@ public class SpaceShooter extends ApplicationAdapter {
     public void create() {
         batch = new SpriteBatch();
         img = new Texture("badlogic.jpg");
+        background =new Texture("nebula.jpg");
         region = new TextureRegion(img, 128, 256);
         x = 0;
     }
@@ -26,6 +28,7 @@ public class SpaceShooter extends ApplicationAdapter {
         Gdx.gl.glClearColor(0.5f, 0.6f, 0.4f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
+        batch.draw(background, 0,0, 1080,1920);
         batch.draw(img, x, x);
         batch.draw(region, 0, 0);
         batch.end();
