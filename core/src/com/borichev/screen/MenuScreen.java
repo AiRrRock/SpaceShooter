@@ -9,6 +9,7 @@ import com.borichev.base.BaseScreen;
 public class MenuScreen extends BaseScreen {
     Texture img;
     Texture background;
+    int movementSpeed;
     Vector2 speed;
     Vector2 distance;
     Vector2 position;
@@ -22,6 +23,7 @@ public class MenuScreen extends BaseScreen {
         desiredPosition = new Vector2(position);
         distance = new Vector2(0, 0);
         speed = new Vector2(0, 0);
+        movementSpeed = 40;
         super.show();
     }
 
@@ -29,11 +31,11 @@ public class MenuScreen extends BaseScreen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.5f, 0.6f, 0.4f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        batch.draw(background, 0, 0, 1080, 1920);
         if (!desiredPosition.equals(position)) {
             calculateMovement();
         }
+        batch.begin();
+        batch.draw(background, 0, 0, 1080, 1920);
         batch.draw(img, position.x, position.y);
         batch.end();
         super.render(delta);
@@ -54,8 +56,8 @@ public class MenuScreen extends BaseScreen {
 
     private void calculateMovement() {
         speed.set(distance);
-        if (speed.len() > 50) {
-            speed.setLength(50);
+        if (speed.len() > movementSpeed) {
+            speed.setLength(movementSpeed);
         }
         position.add(speed);
         distance.sub(speed);
