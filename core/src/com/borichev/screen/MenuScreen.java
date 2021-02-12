@@ -9,56 +9,35 @@ import com.borichev.math.Rect;
 import com.borichev.sprite.Background;
 
 public class MenuScreen extends BaseScreen {
-    Texture img;
-    Texture bg;
-    Background background;
-    int movementSpeed;
-    Vector2 position;
-    Vector2 v;
-    Vector2 tmp;
-    Vector2 touch;
+
+    private Texture bg;
+    private Background background;
 
     @Override
     public void show() {
-        bg = new Texture("nebula.jpg");
-        background = new Background(bg);
-        /*
-        img = new Texture("badlogic.jpg");
-        position = new Vector2(0, 0);
-        //touch = new Vector2(0, 0);
-        v = new Vector2();
-        tmp = new Vector2();
-        movementSpeed = 40;*/
         super.show();
+        bg = new Texture("textures/nebula.jpg");
+        background = new Background(bg);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.5f, 0.6f, 0.4f, 1);
+        Gdx.gl.glClearColor(0.3f, 0.6f, 0.4f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
-        //batch.draw(img, position.x, position.y, 0.5f, 0.5f);
         batch.end();
-    }
-
-    @Override
-    public void resize(Rect worldBounds) {
-        background.resize(worldBounds);
     }
 
     @Override
     public void dispose() {
         bg.dispose();
-
         super.dispose();
     }
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        //    touch.set(screenX, Gdx.graphics.getHeight() - screenY);
-        //   v.set(touch.cpy().sub(position)).setLength(movementSpeed);
-        return false;
+    public void resize(Rect worldBounds) {
+        background.resize(worldBounds);
     }
 
     @Override
