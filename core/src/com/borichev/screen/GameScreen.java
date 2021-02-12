@@ -8,8 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.borichev.base.BaseScreen;
 import com.borichev.math.Rect;
 import com.borichev.sprite.Background;
-import com.borichev.sprite.ButtonExit;
-import com.borichev.sprite.ButtonPlay;
 import com.borichev.sprite.Star;
 
 public class GameScreen extends BaseScreen {
@@ -90,7 +88,6 @@ public class GameScreen extends BaseScreen {
         for (Star star : stars) {
             star.draw(batch);
         }
-        //logo.draw(batch);
         batch.end();
     }
 }

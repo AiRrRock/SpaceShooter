@@ -19,10 +19,8 @@ public class MenuScreen extends BaseScreen {
     private final Game game;
 
     private Texture bg;
-    private Texture img;
     private TextureAtlas atlas;
 
-    private Logo logo;
     private Background background;
     private Star[] stars;
     private ButtonExit buttonExit;
@@ -37,8 +35,6 @@ public class MenuScreen extends BaseScreen {
         super.show();
         bg = new Texture("textures/bg.png");
         background = new Background(bg);
-        img = new Texture("badlogic.jpg");
-        logo = new Logo(img);
         atlas = new TextureAtlas("textures/menuAtlas.tpack");
         buttonExit = new ButtonExit(atlas);
         buttonPlay = new ButtonPlay(atlas, game);
@@ -59,7 +55,6 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void dispose() {
         bg.dispose();
-        img.dispose();
         atlas.dispose();
         super.dispose();
     }
@@ -67,7 +62,6 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void resize(Rect worldBounds) {
         background.resize(worldBounds);
-        logo.resize(worldBounds);
         buttonExit.resize(worldBounds);
         buttonPlay.resize(worldBounds);
         for (Star star : stars) {
@@ -77,7 +71,6 @@ public class MenuScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
-        logo.touchDown(touch, pointer, button);
         buttonExit.touchDown(touch, pointer, button);
         buttonPlay.touchDown(touch, pointer, button);
         return false;
@@ -91,7 +84,6 @@ public class MenuScreen extends BaseScreen {
     }
 
     private void update(float delta) {
-        logo.update(delta);
         for (Star star : stars) {
             star.update(delta);
         }
@@ -102,7 +94,6 @@ public class MenuScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
-        //logo.draw(batch);
         for (Star star : stars) {
             star.draw(batch);
         }
