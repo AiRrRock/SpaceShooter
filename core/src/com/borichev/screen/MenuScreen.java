@@ -41,6 +41,7 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void dispose() {
         bg.dispose();
+        img.dispose();
         super.dispose();
     }
 
