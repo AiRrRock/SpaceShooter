@@ -76,6 +76,7 @@ public class EnemyEmitter {
                         ENEMY_SMALL_HEIGHT,
                         ENEMY_SMALL_HP
                 );
+                enemyShip.setReloadTimer(ENEMY_SMALL_RELOAD_INTERVAL/1.5f);
             } else if (enemyType < 0.8f) {
                 enemyShip.set(
                         enemyMediumRegions,

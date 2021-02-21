@@ -43,6 +43,10 @@ public class Ship extends Sprite {
             reloadTimer = 0f;
             shoot();
         }
+        calculateCollision();
+        if (hp<=0){
+            this.destroy();
+        }
     }
 
     private void shoot() {
@@ -50,4 +54,21 @@ public class Ship extends Sprite {
         bullet.set(this, bulletRegion, bulletPos, bulletV, bulletHeight, worldBounds, damage);
         sound.play();
     }
+
+    public void setReloadTimer(float reloadTimer) {
+        this.reloadTimer = reloadTimer;
+    }
+
+    public void calculateCollision() {
+        for (Bullet bullet : bulletPool.activeObjects) {
+            if (!bullet.getOwner().equals(this)) {
+                if (this.isMe(bullet.pos)) {
+                    this.hp -= bullet.getDamage();
+                    bullet.destroy();
+                }
+            }
+
+        }
+    }
+
 }
