@@ -21,7 +21,7 @@ public class ButtonPlay extends BaseButton {
 
     @Override
     public void resize(Rect worldBounds) {
-        setHeightProportions(HEIGHT);
+        setHeightProportion(HEIGHT);
         setBottom(worldBounds.getBottom() + PADDING);
         setLeft(worldBounds.getLeft() + PADDING);
     }

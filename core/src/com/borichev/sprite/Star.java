@@ -22,7 +22,7 @@ public class Star extends Sprite {
     @Override
     public void resize(Rect worldBounds) {
         this.worldBounds = worldBounds;
-        setHeightProportions(HEIGHT);
+        setHeightProportion(HEIGHT);
         float x = Rnd.nextFloat(worldBounds.getLeft(), worldBounds.getRight());
         float y = Rnd.nextFloat(worldBounds.getBottom(), worldBounds.getTop());
         pos.set(x, y);
