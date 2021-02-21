@@ -18,6 +18,7 @@ import com.borichev.sprite.Star;
 public class GameScreen extends BaseScreen {
 
     private static final int STAR_COUNT = 64;
+    private Music music;
 
     private Texture bg;
     private TextureAtlas atlas;
@@ -42,6 +43,9 @@ public class GameScreen extends BaseScreen {
         }
         bulletPool = new BulletPool();
         mainShip = new MainShip(atlas, bulletPool);
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
+        music.setLooping(true);
+        music.play();
 
     }
 
@@ -66,6 +70,7 @@ public class GameScreen extends BaseScreen {
         bg.dispose();
         atlas.dispose();
         bulletPool.dispose();
+        music.dispose();
         super.dispose();
     }
 
