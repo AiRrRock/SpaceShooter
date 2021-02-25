@@ -23,6 +23,9 @@ public class EnemyShip extends Ship {
     @Override
     public void update(float delta) {
         super.update(delta);
+        if (getTop() < worldBounds.getTop()) {
+            this.v.set(v0);
+        }
         bulletPos.set(pos.x, pos.y - getHalfHeight());
         if (getBottom() < worldBounds.getBottom()) {
             destroy();
@@ -41,7 +44,8 @@ public class EnemyShip extends Ship {
             int hp
     ) {
         this.regions = regions;
-        this.v.set(v0);
+        this.v0 = v0;
+        this.v.set(0, -height);
         this.bulletRegion = bulletRegion;
         this.bulletHeight = bulletHeight;
         this.bulletV.set(bulletV);
@@ -50,4 +54,5 @@ public class EnemyShip extends Ship {
         setHeightProportion(height);
         this.hp = hp;
     }
+
 }
