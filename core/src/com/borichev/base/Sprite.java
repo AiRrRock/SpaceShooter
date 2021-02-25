@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.borichev.math.Rect;
 import com.borichev.utils.Regions;
 
-
 public class Sprite extends Rect {
 
     protected float angle;

@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.borichev.base.Ship;
 import com.borichev.math.Rect;
 import com.borichev.pool.BulletPool;
+import com.borichev.pool.ExplosionPool;
 
 public class MainShip extends Ship {
 
@@ -15,15 +16,20 @@ public class MainShip extends Ship {
     private static final float PADDING = 0.05f;
     private static final int INVALID_POINTER = -1;
 
+    private static final int HP = 100;
+
     private boolean pressedLeft;
     private boolean pressedRight;
 
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
 
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool) {
+    private float xv;
+
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
         this.bulletPool = bulletPool;
+        this.explosionPool = explosionPool;
         this.bulletRegion = atlas.findRegion("bulletMainShip");
         v = new Vector2();
         v0 = new Vector2(0.5f, 0);
@@ -33,7 +39,18 @@ public class MainShip extends Ship {
         damage = 1;
         reloadInterval = 0.2f;
         sound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser.wav"));
-        hp = 10;
+        hp = HP;
+    }
+
+    public void startNewGame() {
+        hp = HP;
+        pressedLeft = false;
+        pressedRight = false;
+        leftPointer = INVALID_POINTER;
+        rightPointer = INVALID_POINTER;
+        stop();
+        pos.x = worldBounds.pos.x;
+        flushDestroy();
     }
 
     @Override
@@ -139,16 +156,31 @@ public class MainShip extends Ship {
         sound.dispose();
     }
 
+    public boolean isBulletCollision(Rect bullet) {
+        return !(bullet.getRight() < getLeft()
+                || bullet.getLeft() > getRight()
+                || bullet.getBottom() > pos.y
+                || bullet.getTop() < getBottom()
+        );
+    }
+
+    public float getXv() {
+        return xv;
+    }
+
     private void moveRight() {
         v.set(v0);
+        this.xv = 0.5f;
     }
 
     private void moveLeft() {
         v.set(v0).rotate(180);
+        this.xv = -0.5f;
     }
 
     private void stop() {
         v.setZero();
+        this.xv = 0;
     }
 
 }

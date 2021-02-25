@@ -3,17 +3,22 @@ package com.borichev.base;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+
 import com.borichev.math.Rect;
 import com.borichev.pool.BulletPool;
+import com.borichev.pool.ExplosionPool;
 import com.borichev.sprite.Bullet;
-
+import com.borichev.sprite.Explosion;
 
 public class Ship extends Sprite {
+
+    private static final float DAMAGE_ANIMATE_INTERVAL = 0.1f;
 
     protected Vector2 v0;
     protected Vector2 v;
 
     protected Rect worldBounds;
+    protected ExplosionPool explosionPool;
     protected BulletPool bulletPool;
     protected TextureRegion bulletRegion;
     protected Vector2 bulletV;
@@ -27,6 +32,8 @@ public class Ship extends Sprite {
     protected int hp;
 
     protected Sound sound;
+
+    private float damageAnimateTimer = DAMAGE_ANIMATE_INTERVAL;
 
     public Ship() {
     }
@@ -43,10 +50,38 @@ public class Ship extends Sprite {
             reloadTimer = 0f;
             shoot();
         }
-        calculateCollision();
-        if (hp<=0){
-            this.destroy();
+        damageAnimateTimer += delta;
+        if (damageAnimateTimer >= DAMAGE_ANIMATE_INTERVAL) {
+            frame = 0;
         }
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        boom();
+    }
+
+    public void damage(int damage) {
+        hp -= damage;
+        if (hp <= 0) {
+            hp = 0;
+            destroy();
+        }
+        frame = 1;
+        damageAnimateTimer = 0f;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public Vector2 getV() {
+        return v;
     }
 
     private void shoot() {
@@ -55,20 +90,8 @@ public class Ship extends Sprite {
         sound.play();
     }
 
-    public void setReloadTimer(float reloadTimer) {
-        this.reloadTimer = reloadTimer;
+    private void boom() {
+        Explosion explosion = explosionPool.obtain();
+        explosion.set(getHeight(), pos);
     }
-
-    public void calculateCollision() {
-        for (Bullet bullet : bulletPool.activeObjects) {
-            if (!bullet.getOwner().equals(this)) {
-                if (this.isMe(bullet.pos)) {
-                    this.hp -= bullet.getDamage();
-                    bullet.destroy();
-                }
-            }
-
-        }
-    }
-
 }
