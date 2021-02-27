@@ -1,5 +1,6 @@
 package com.borichev.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -18,7 +19,9 @@ import com.borichev.pool.ExplosionPool;
 import com.borichev.sprite.Background;
 import com.borichev.sprite.Bullet;
 import com.borichev.sprite.EnemyShip;
+import com.borichev.sprite.GameOver;
 import com.borichev.sprite.MainShip;
+import com.borichev.sprite.NewGame;
 import com.borichev.sprite.Star;
 import com.borichev.utils.EnemyEmitter;
 
@@ -44,6 +47,15 @@ public class GameScreen extends BaseScreen {
     private Sound explosionSound;
 
     private EnemyEmitter enemyEmitter;
+    private boolean alive;
+    private GameOver gameOver;
+    private NewGame newGame;
+
+    private Game game;
+
+    public GameScreen(Game game) {
+        this.game = game;
+    }
 
     @Override
     public void show() {
@@ -61,11 +73,13 @@ public class GameScreen extends BaseScreen {
         for (int i = 0; i < STAR_COUNT; i++) {
             stars[i] = new Star(atlas);
         }
-
+        gameOver = new GameOver(atlas);
+        newGame = new NewGame(atlas, game);
         enemyEmitter = new EnemyEmitter(atlas, worldBounds, enemyPool);
         music = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
         music.setLooping(true);
         music.play();
+        alive = true;
     }
 
     @Override
@@ -83,6 +97,8 @@ public class GameScreen extends BaseScreen {
             star.resize(worldBounds);
         }
         mainShip.resize(worldBounds);
+        gameOver.resize(worldBounds);
+        newGame.resize(worldBounds);
     }
 
     @Override
@@ -113,13 +129,21 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
-        mainShip.touchDown(touch, pointer, button);
+        if (alive) {
+            mainShip.touchDown(touch, pointer, button);
+        } else {
+            newGame.touchDown(touch, pointer, button);
+        }
         return false;
     }
 
     @Override
     public boolean touchUp(Vector2 touch, int pointer, int button) {
-        mainShip.touchUp(touch, pointer, button);
+        if (alive) {
+            mainShip.touchUp(touch, pointer, button);
+        } else {
+            newGame.touchUp(touch, pointer, button);
+        }
         return false;
     }
 
@@ -128,10 +152,15 @@ public class GameScreen extends BaseScreen {
             star.update(delta);
         }
         explosionPool.updateActiveSprites(delta);
-        mainShip.update(delta);
-        bulletPool.updateActiveSprites(delta);
-        enemyPool.updateActiveSprites(delta);
-        enemyEmitter.generate(delta);
+        if (alive) {
+            mainShip.update(delta);
+            if (mainShip.getHp() <= 0) {
+                alive = false;
+            }
+            bulletPool.updateActiveSprites(delta);
+            enemyPool.updateActiveSprites(delta);
+            enemyEmitter.generate(delta);
+        }
     }
 
     private void checkCollisions() {
@@ -181,14 +210,20 @@ public class GameScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
-         for (Star star : stars) {
+        for (Star star : stars) {
             star.draw(batch);
         }
-        mainShip.draw(batch);
-        bulletPool.drawActiveSprites(batch);
-        enemyPool.drawActiveSprites(batch);
         explosionPool.drawActiveSprites(batch);
+        if (alive) {
+            mainShip.draw(batch);
+            bulletPool.drawActiveSprites(batch);
+            enemyPool.drawActiveSprites(batch);
+        } else {
+            gameOver.draw(batch);
+            newGame.draw(batch);
+        }
         batch.end();
+
     }
 
 
