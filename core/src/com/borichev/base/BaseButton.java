@@ -1,5 +1,6 @@
 package com.borichev.base;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
@@ -11,6 +12,10 @@ public abstract class BaseButton extends Sprite {
 
     public BaseButton(TextureRegion region) {
         super(region);
+    }
+
+    public BaseButton(TextureAtlas atlas, String name, String name2) {
+        super(atlas.findRegion(name), atlas.findRegion(name2));
     }
 
     @Override
