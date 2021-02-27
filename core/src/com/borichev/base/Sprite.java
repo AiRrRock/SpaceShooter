@@ -25,6 +25,15 @@ public class Sprite extends Rect {
         regions[0] = region;
     }
 
+    public Sprite(TextureRegion region, TextureRegion otherRegion) {
+        if (region == null) {
+            throw new RuntimeException("Region is null");
+        }
+        regions = new TextureRegion[2];
+        regions[0] = region;
+        regions[1] = otherRegion;
+    }
+
     public Sprite(TextureRegion region, int rows, int cols, int frames) {
         if (region == null) {
             throw new RuntimeException("Region is null");
@@ -34,7 +43,7 @@ public class Sprite extends Rect {
 
     public void setHeightProportion(float height) {
         setHeight(height);
-        float aspect = regions[frame].getRegionWidth() /(float) regions[frame].getRegionHeight();
+        float aspect = regions[frame].getRegionWidth() / (float) regions[frame].getRegionHeight();
         setWidth(height * aspect);
     }
 

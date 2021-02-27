@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
+import com.borichev.base.PowerUp;
 import com.borichev.base.Ship;
 import com.borichev.math.Rect;
 import com.borichev.pool.BulletPool;
@@ -15,6 +16,9 @@ public class MainShip extends Ship {
     private static final float HEIGHT = 0.15f;
     private static final float PADDING = 0.05f;
     private static final int INVALID_POINTER = -1;
+    private static final int MAX_DAMAGE = 30;
+    private static final int MAX_HEALTH = 500;
+    private static final float MIN_RELOAD_INTERVAL = 0.05f;
 
     private static final int HP = 100;
 
@@ -37,7 +41,7 @@ public class MainShip extends Ship {
         bulletPos = new Vector2();
         bulletHeight = 0.01f;
         damage = 1;
-        reloadInterval = 0.2f;
+        reloadInterval = 0.5f;
         sound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser.wav"));
         hp = HP;
     }
@@ -168,6 +172,27 @@ public class MainShip extends Ship {
         return xv;
     }
 
+    public void consumePowerUp(PowerUp powerUp) {
+        switch (powerUp.getType()) {
+            case POWER:
+                if (MAX_DAMAGE < damage) {
+                    this.bulletHeight = bulletHeight * 1.1f;
+                    this.damage++;
+                }
+                break;
+            case HEALTH:
+                if (MAX_HEALTH - 10 >= hp) {
+                    this.hp += 10;
+                }
+                break;
+            case BULLET_SPEED:
+                if (MIN_RELOAD_INTERVAL < reloadInterval) {
+                    this.reloadInterval *= 0.9f;
+                }
+                break;
+        }
+    }
+
     private void moveRight() {
         v.set(v0);
         this.xv = 0.5f;
@@ -182,5 +207,6 @@ public class MainShip extends Ship {
         v.setZero();
         this.xv = 0;
     }
+
 
 }
