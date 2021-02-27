@@ -1,6 +1,5 @@
 package com.borichev.pool;
 
-
 import com.borichev.base.SpritesPool;
 import com.borichev.sprite.Bullet;
 

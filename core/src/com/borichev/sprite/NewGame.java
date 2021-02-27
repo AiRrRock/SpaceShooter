@@ -1,6 +1,5 @@
 package com.borichev.sprite;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import com.borichev.base.BaseButton;
@@ -9,15 +8,13 @@ import com.borichev.screen.GameScreen;
 
 public class NewGame extends BaseButton {
 
-    private static final float HEIGHT = 0.05f;
-    private static final float BOTTOM = 0.2f;
+    private static final float HEIGHT = 0.06f;
 
+    private GameScreen gameScreen;
 
-    private Game game;
-
-    public NewGame(TextureAtlas atlas, Game game) {
+    public NewGame(TextureAtlas atlas, GameScreen gameScreen) {
         super(atlas.findRegion("button_new_game"));
-        this.game = game;
+        this.gameScreen = gameScreen;
     }
 
     @Override
@@ -27,6 +24,6 @@ public class NewGame extends BaseButton {
 
     @Override
     public void action() {
-        game.setScreen(new GameScreen(game));
+        gameScreen.startNewGame();
     }
 }

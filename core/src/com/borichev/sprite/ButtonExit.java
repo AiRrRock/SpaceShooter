@@ -2,7 +2,7 @@ package com.borichev.sprite;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 import com.borichev.base.BaseButton;
 import com.borichev.math.Rect;
 

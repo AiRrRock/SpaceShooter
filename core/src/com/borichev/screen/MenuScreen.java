@@ -11,7 +11,6 @@ import com.borichev.math.Rect;
 import com.borichev.sprite.Background;
 import com.borichev.sprite.ButtonExit;
 import com.borichev.sprite.ButtonPlay;
-import com.borichev.sprite.Logo;
 import com.borichev.sprite.Star;
 
 public class MenuScreen extends BaseScreen {
@@ -34,15 +33,14 @@ public class MenuScreen extends BaseScreen {
     public void show() {
         super.show();
         bg = new Texture("textures/bg.png");
+        atlas = new TextureAtlas(Gdx.files.internal("textures/menuAtlas.tpack"));
         background = new Background(bg);
-        atlas = new TextureAtlas("textures/menuAtlas.tpack");
-        buttonExit = new ButtonExit(atlas);
-        buttonPlay = new ButtonPlay(atlas, game);
         stars = new Star[STAR_COUNT];
         for (int i = 0; i < STAR_COUNT; i++) {
             stars[i] = new Star(atlas);
         }
-
+        buttonExit = new ButtonExit(atlas);
+        buttonPlay = new ButtonPlay(atlas, game);
     }
 
     @Override
@@ -50,7 +48,6 @@ public class MenuScreen extends BaseScreen {
         update(delta);
         draw();
     }
-
 
     @Override
     public void dispose() {
@@ -62,11 +59,11 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void resize(Rect worldBounds) {
         background.resize(worldBounds);
-        buttonExit.resize(worldBounds);
-        buttonPlay.resize(worldBounds);
         for (Star star : stars) {
             star.resize(worldBounds);
         }
+        buttonExit.resize(worldBounds);
+        buttonPlay.resize(worldBounds);
     }
 
     @Override

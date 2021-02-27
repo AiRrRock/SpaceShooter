@@ -2,9 +2,9 @@ package com.borichev.sprite;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+
 import com.borichev.base.Sprite;
 import com.borichev.math.Rect;
-
 
 public class Bullet extends Sprite {
 
